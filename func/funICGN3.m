@@ -341,7 +341,14 @@ try
             % tempH = (H + delta*diag(diag(H)));
             % tempb = b;
             % DeltaP(5:6) = -tempH(5:6,5:6)\tempb(5:6);
-            DP = -(H + delta*diag(diag(H))) \ b;
+            % DP = -(H + delta*diag(diag(H))) \ b;
+
+            gpu_H = gpuArray(H);
+            gpu_b = gpuArray(b);
+            gpu_delta = gpuArray(delta);
+            gpu_DP = -(gpu_H + gpu_delta*diag(diag(gpu_H))) \ gpu_b;
+            DP = gather(gpu_DP);
+
             % temp = ((1+DeltaP(1))*(1+DeltaP(4)) - DeltaP(2)*DeltaP(3));
             detDP = 1+DP(5)+(-1).*DP(3).*DP(7)+(-1).*DP(3).*DP(5).*DP(7)+DP(3).*DP(4).*DP(8)+...
                 (-1).*DP(6).*DP(8)+DP(9)+DP(5).*DP(9)+(-1).*DP(2).*(DP(4)+(-1).*DP(6).*DP(7)+DP(4).* ...

@@ -315,9 +315,12 @@ while ConvergeOrNot < 0.5 && IterStep < 1
     % figure; mesh(tempgridx,tempgridy,AMatrixRegularized(1:FEMSize,1:FEMSize));
     
     % ========= Solve FEM problem ===========
-    UhatNew(FreeNodes) = AMatrixRegularized(FreeNodes,FreeNodes) \ b(FreeNodes);
+    % UhatNew(FreeNodes) = AMatrixRegularized(FreeNodes,FreeNodes) \ b(FreeNodes);
+    gpu_AMatrixRegularized_FreeNodes = gpuArray(single(AMatrixRegularized(FreeNodes,FreeNodes)));
+    gpu_b_FreeNodes = gpuArray(single(b(FreeNodes)));
+    gpu_UhatNew_FreeNodes = gpu_AMatrixRegularized_FreeNodes \ gpu_b_FreeNodes;
+    UhatNew(FreeNodes) = double(gather(gpu_UhatNew_FreeNodes));
     Uhat = UhatNew(1:end-NodesPerEle*DIM);
-     
     
     % if norm(UhatNew-UhatOld)/sqrt(length(UhatOld)) < 1e-3
     %     ConvergeOrNot = 1;

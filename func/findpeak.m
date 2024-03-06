@@ -45,7 +45,11 @@ else
     X = [ones(9,1),  x,  y,  x.*y,  x.^2,  y.^2];
     
     % u = X*A
-    A = X\u;
+    % A = X\u;
+    gpu_X = gpuArray(single(X));
+    gpu_u = gpuArray(single(u));
+    gpu_A = gpu_X\gpu_u;
+    A = double(gather(gpu_A));
 
     % get maximum, where du/dx = du/dy = 0
     x_offset = (-A(3)*A(4)+2*A(6)*A(2)) / (A(4)^2-4*A(5)*A(6));

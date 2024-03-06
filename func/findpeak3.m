@@ -55,7 +55,11 @@ else
     % opts.LT = false; opts.UT = false; opts.UHESS = false; opts.SYM = false; opts.RECT = true; opts.TRANSA = false;
     % A = linsolve(X,u,opts);
     % A = X\u;
-    A = (X'*X)\(X'*u);
+    % A = (X'*X)\(X'*u);
+    gpu_X = gpuArray(single(X));
+    gpu_u = gpuArray(single(u));
+    gpu_A = (gpu_X'*gpu_X)\(gpu_X'*gpu_u);
+    A = double(gather(gpu_A));
     
     % get maximum, where du/dx = du/dy = du/dz = 0
     x_offset = -(A(2)*A(7)^2 - A(3)*A(6)*A(7) - A(4)*A(5)*A(7) + 2*A(3)*A(5)*A(10) + 2*A(4)*A(6)*A(9) - 4*A(2)*A(9)*A(10))/(2*(A(10)*A(5)^2 - A(5)*A(6)*A(7) + A(9)*A(6)^2 + A(8)*A(7)^2 - 4*A(8)*A(9)*A(10)));
