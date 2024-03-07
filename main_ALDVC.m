@@ -15,7 +15,7 @@
 %% Section 1: To set up MATLAB environment
 close all; clear; clc; clearvars -global %Clear MATLAB environment
 fprintf('------------ Section 1 Start ------------ \n')
-setenv('MW_MINGW64_LOC','C:\TDM-GCC-64'); %Modify this line if you install "TDM-GCC-64" on a different path
+% setenv('MW_MINGW64_LOC','C:\TDM-GCC-64'); %Modify this line if you install "TDM-GCC-64" on a different path
 mex -O ba_interp3.cpp; warning('off'); %Mex set up tricubic interpolation
 % dbstop if error; %You can uncomment this line to jump to the code where there is an error
 addpath('./func','./src','./plotFiles','./DVC_images','./plotFiles/export_fig-d966721','./func/regularizeNd');
