@@ -18,7 +18,7 @@ fprintf('------------ Section 1 Start ------------ \n')
 % setenv('MW_MINGW64_LOC','C:\TDM-GCC-64'); %Modify this line if you install "TDM-GCC-64" on a different path
 mex -O ba_interp3.cpp; warning('off'); %Mex set up tricubic interpolation
 % dbstop if error; %You can uncomment this line to jump to the code where there is an error
-addpath('./func','./src','./plotFiles','./DVC_images','./plotFiles/export_fig-d966721','./func/regularizeNd');
+addpath('./func','./src','./PlotFiles','./DVC_images','./PlotFiles/export_fig-d966721','./func/regularizeNd');
 fprintf('------------ Section 1 Done ------------ \n \n')
 
 
